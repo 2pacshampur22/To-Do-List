@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	store := storage.NewStorage("tasks.json")
+	var store storage.Service = storage.NewStorage("tasks.json")
 
 	var input string
 	fmt.Println("Please provide an input argument: add, list, done, delete")
@@ -43,6 +43,12 @@ func main() {
 			fmt.Printf("Error listing tasks: %v\n", err)
 			return
 		}
+
+		if len(tasks) == 0 {
+			fmt.Println("No tasks found")
+			return
+		}
+
 		for _, task := range tasks {
 			fmt.Printf("Task: %+v\n", task)
 		}
