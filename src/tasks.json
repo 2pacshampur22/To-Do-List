@@ -4,5 +4,17 @@
   "name": "Test Task",
   "description": "Checking server",
   "isDone": false
+ },
+ {
+  "id": 2,
+  "name": "Hardcore Mode",
+  "description": "Implemented via specs",
+  "isDone": false
+ },
+ {
+  "id": 3,
+  "name": "Curl Test",
+  "description": "Testing POST method",
+  "isDone": false
  }
 ]

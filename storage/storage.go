@@ -17,6 +17,13 @@ type Storage struct {
 	Path string
 }
 
+type Service interface {
+	Add(t Task) error
+	List() ([]Task, error)
+	Done(id int) error
+	Delete(id int) error
+}
+
 func NewStorage(path string) *Storage {
 	return &Storage{Path: path}
 }
@@ -70,13 +77,8 @@ func (s *Storage) Add(t Task) error {
 func (s *Storage) List() ([]Task, error) {
 	tasks, err := s.LoadTasks()
 	if err != nil {
-		return nil, fmt.Errorf("Failed to load tasks: %v", err)
+		return nil, err
 	}
-
-	if len(tasks) == 0 {
-		return nil, fmt.Errorf("No tasks found")
-	}
-
 	return tasks, nil
 }
 
