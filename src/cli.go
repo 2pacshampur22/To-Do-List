@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-func main() {
+func RunCLI() {
 	var store storage.Service = storage.NewStorage("tasks.json")
 
 	var input string
