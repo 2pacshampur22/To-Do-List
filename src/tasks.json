@@ -1,15 +1,9 @@
 [
  {
-  "id": 1,
-  "name": "Test Task",
-  "description": "Checking server",
-  "isDone": false
- },
- {
   "id": 2,
   "name": "Hardcore Mode",
   "description": "Implemented via specs",
-  "isDone": false
+  "isDone": true
  },
  {
   "id": 3,

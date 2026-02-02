@@ -5,11 +5,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 func main() {
 	store := storage.NewStorage("tasks.json")
-	http.HandleFunc("/tasks", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/tasks/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case "GET":
 			w.Header().Set("Content-Type", "application/json")
@@ -32,6 +34,30 @@ func main() {
 				return
 			}
 			w.WriteHeader(http.StatusCreated)
+		case "DELETE":
+			deleteTaskId, err := strconv.Atoi(strings.TrimPrefix(r.URL.Path, "/tasks/"))
+			if err != nil {
+				http.Error(w, "Invalid task ID", http.StatusBadRequest)
+				return
+			}
+			err = store.Delete(deleteTaskId)
+			if err != nil {
+				http.Error(w, "Error deleting task", http.StatusInternalServerError)
+				return
+			}
+			w.WriteHeader(http.StatusOK)
+		case "PUT":
+			updateTaskId, err := strconv.Atoi(strings.TrimPrefix(r.URL.Path, "/tasks/"))
+			if err != nil {
+				http.Error(w, "Invalid task ID", http.StatusBadRequest)
+				return
+			}
+			err = store.Done(updateTaskId)
+			if err != nil {
+				http.Error(w, "Error updating task", http.StatusInternalServerError)
+				return
+			}
+			w.WriteHeader(http.StatusOK)
 		default:
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 
