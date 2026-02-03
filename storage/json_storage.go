@@ -24,7 +24,7 @@ type Service interface {
 	Delete(id int) error
 }
 
-func NewStorage(path string) *Storage {
+func NewJsonStorage(path string) *Storage {
 	return &Storage{Path: path}
 }
 

@@ -8,7 +8,7 @@ import (
 )
 
 func RunCLI() {
-	var store storage.Service = storage.NewStorage("tasks.json")
+	var store storage.Service = storage.NewJsonStorage("tasks.json")
 
 	var input string
 	fmt.Println("Please provide an input argument: add, list, done, delete")
