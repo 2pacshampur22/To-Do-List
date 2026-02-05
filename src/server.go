@@ -4,13 +4,23 @@ import (
 	"To-Do-List/storage"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
+
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	store, err := storage.NewPostgresStorage("")
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	dbPassword := os.Getenv("DB_PASSWORD")
+	connStr := "postgres://postgres:" + dbPassword + "@127.0.0.1:5432/postgres?sslmode=disable"
+	store, err := storage.NewPostgresStorage(connStr)
 	if err != nil {
 		fmt.Printf("Error connecting to Postgres: %s\n", err)
 		return
@@ -59,6 +69,7 @@ func main() {
 			}
 			err = store.Done(updateTaskId)
 			if err != nil {
+				fmt.Println("❌ ОШИБКА ПАРСИНГА ID. Пришло:", strings.TrimPrefix(r.URL.Path, "/tasks/"))
 				http.Error(w, "Error updating task", http.StatusInternalServerError)
 				return
 			}

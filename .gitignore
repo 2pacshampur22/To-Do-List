@@ -1,0 +1,12 @@
+server
+main
+*.exe
+*.test
+
+.DS_Store
+Thumbs.db
+
+.idea/
+.vscode/
+
+.env

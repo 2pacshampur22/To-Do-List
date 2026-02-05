@@ -21,6 +21,17 @@ func NewPostgresStorage(connStr string) (*PostgresStorage, error) {
 	if err != nil {
 		return nil, err
 	}
+	_, err = db.Exec(`
+	create table if not exists tasks (
+		id serial primary key,
+		name text not null,
+		description text not null,
+		is_done boolean not null
+	);`)
+	if err != nil {
+		return nil, err
+	}
+
 	return &PostgresStorage{DB: db}, nil
 
 }

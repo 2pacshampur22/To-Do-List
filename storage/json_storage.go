@@ -10,7 +10,7 @@ type Task struct {
 	ID          int    `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
-	IsDone      bool   `json:"isDone"`
+	IsDone      bool   `json:"is_done"`
 }
 
 type Storage struct {
