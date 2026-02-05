@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go To-Do</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-900 text-slate-200 justify-center items-center">
+
+    <div class="p-8 mt-6 m-auto w-3/4 bg-slate-800 p-8 rounded-xl shadow-2xl justify-center items-center">
+        
+        <h1 class="text-3xl font-bold mb-8 text-indigo-400">Mission Control</h1>
+
+        <div class="flex gap-4 mb-8">
+            <input 
+                type="text" 
+                id="taskInput" 
+                placeholder="New objective..." 
+                class="flex-1 p-3 rounded-lg bg-slate-700 border border-slate-600 focus:outline-none focus:border-indigo-500 text-white"
+            >
+            <button 
+                onclick="createTask()"
+                class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 px-6 rounded-lg transition"
+            >
+                Add Task
+            </button>
+        </div>
+
+        <ul id="taskList" class="space-y-3">
+            <li class="flex justify-between items-center bg-slate-700 p-4 rounded-lg">
+                <span class="line-through text-slate-500">Пример выполненной задачи</span>
+                <button class="text-red-400 hover:text-red-300">✕</button>
+            </li>
+            
+            <li class="flex justify-between items-center bg-slate-700 p-4 rounded-lg border-l-4 border-indigo-500">
+                <span>Пример новой задачи</span>
+                <button class="text-red-400 hover:text-red-300">✕</button>
+            </li>
+        </ul>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
