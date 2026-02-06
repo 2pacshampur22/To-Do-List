@@ -14,12 +14,23 @@ import (
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
+	_ = godotenv.Load()
+
 	dbPassword := os.Getenv("DB_PASSWORD")
-	connStr := "postgres://postgres:" + dbPassword + "@127.0.0.1:5432/postgres?sslmode=disable"
+	if dbPassword == "" {
+		log.Fatal("DB_PASSWORD environment variable is not set")
+	}
+	dbHost := os.Getenv("DB_HOST")
+	if dbHost == "" {
+		dbHost = "localhost"
+	}
+	dbPort := os.Getenv("DB_PORT")
+	if dbPort == "" {
+		dbPort = "5432"
+	}
+
+	connStr := fmt.Sprintf("postgres://postgres:%s@%s:%s/postgres?sslmode=disable", dbPassword, dbHost, dbPort)
+	fmt.Println("Connecting to Postgres at:", dbHost)
 	store, err := storage.NewPostgresStorage(connStr)
 	if err != nil {
 		fmt.Printf("Error connecting to Postgres: %s\n", err)
@@ -69,7 +80,6 @@ func main() {
 			}
 			err = store.Done(updateTaskId)
 			if err != nil {
-				fmt.Println("❌ ОШИБКА ПАРСИНГА ID. Пришло:", strings.TrimPrefix(r.URL.Path, "/tasks/"))
 				http.Error(w, "Error updating task", http.StatusInternalServerError)
 				return
 			}
@@ -80,6 +90,7 @@ func main() {
 		}
 
 	})
+	http.Handle("/", http.FileServer(http.Dir("./static")))
 	fmt.Println("Starting server on :8080")
 	err = http.ListenAndServe(":8080", enableCors(http.DefaultServeMux))
 	if err != nil {
